@@ -57,8 +57,9 @@ router.put('/:id', async (req, res) => {
 
 
 
-router.post('/createAccount', async (req, res) => {
+router.post('/', async (req, res) => {
   try {
+    console.log('Received password:', req.body.password);
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
 

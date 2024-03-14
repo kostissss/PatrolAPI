@@ -65,10 +65,17 @@ module.exports = function(sequelize, DataTypes) {
                 notEmpty: true
             }
         },
+        selectedOption :{
+            type: DataTypes.STRING,
+            allowNull: false,
+            validate: {
+                notEmpty: true
+            }
+        },
 
 
 
-    }, {
+     
        
     });
     return Account;
