@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const PORT = 3000;
-const signUpRoutes = require('./routes/signUpRoutes');
+const accountRoutes = require('./routes/accountRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
 app.use(express.json());
 
@@ -14,7 +14,7 @@ app.get('/', (req, res) => {
 );
 
 
-app.use('/sign-up', signUpRoutes);
+app.use('/accounts', accountRoutes);
 app.use('/notifications', notificationRoutes);
 
 db.sequelize.sync().then(() => {
