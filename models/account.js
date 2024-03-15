@@ -36,13 +36,7 @@ module.exports = function(sequelize, DataTypes) {
                 notEmpty: true
             }
         },
-        subscriptionPlan: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            validate: {
-                notEmpty: true
-            }
-        },
+        
         subscriptionFrequency: {
 
             type: DataTypes.STRING,
