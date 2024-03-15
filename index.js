@@ -3,6 +3,7 @@ const app = express();
 const PORT = 3000;
 const accountRoutes = require('./routes/accountRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
+const partnerAccountRoutes = require('./routes/partnerAccountRoutes');
 app.use(express.json());
 
 const db = require('./models');
@@ -23,6 +24,7 @@ app.get('/', (req, res) => {
 
 app.use('/accounts', accountRoutes);
 app.use('/notifications', notificationRoutes);
+app.use('/partner/accounts', partnerAccountRoutes);
 
 db.sequelize.sync().then(() => {
 
