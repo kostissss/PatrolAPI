@@ -55,6 +55,27 @@ router.put('/:id', async (req, res) => {
   }
 });
 
+router.put('/passwordReset/:id', async (req, res) => {
+    try {
+      const partnerAccount = await db.PartnerAccount.findByPk(req.params.id);
+      
+      if (!partnerAccount) {
+        return res.status(404).send('PartnerAccount not found');
+      }
+  
+      const hashedPassword = await bcrypt.hash(req.body.password, 10);
+  
+      // Update only the password field
+      await partnerAccount.update({ password: hashedPassword });
+  
+      res.status(200).json(partnerAccount);
+    } catch (error) {
+      console.error('Error updating partnerAccount:', error);
+      res.status(500).send('Error updating partnerAccount');
+    }
+  });
+  
+
 
 
 router.post('/', async (req, res) => {
