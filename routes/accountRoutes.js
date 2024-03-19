@@ -1,16 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const Account = require('../models/account');
-const db = require('../models');
-const bcrypt = require('bcryptjs'); // Import bcryptjs
+
+
+const dbFunctions = require('../dbFunctions/accountFunctions');
 
 
 // Define user routes
 router.get('/:id', async (req, res) => {
   try {
-      const account = await db.Account.findByPk(req.params.id,{
-        attributes : { exclude: ['password'] }
-      });
+      const account =dbFunctions.getAccountById(req.params.id);
       if (!account) {
           return res.status(404).send('account not found');
       }
@@ -25,8 +23,8 @@ router.get('/:id', async (req, res) => {
 
 router.get('/', async (req, res) => {
   try {
-      const account = await db.Account.findAll({attributes : { exclude: ['password'] }});
-      res.status(200).json(account);
+    const account = dbFunctions.getAllAccounts();
+    res.status(200).json(account);
   } catch (error) {
       console.error('Error getting accounts:', error);
       res.status(500).send('Error getting accounts');
@@ -35,20 +33,9 @@ router.get('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
   try {
-      const account = await db.Account.findByPk(req.params.id);
-      
-      if (!account) {
-          return res.status(404).send('Account not found');
-      }
+    const updatedAccount = await dbFunctions.updateAccount(req.params.id, req.body);
 
-      const hashedPassword = await bcrypt.hash(req.body.password, 10);
-
-      const accountData = { ...req.body, password: hashedPassword };
-
-
-      await account.update(accountData);
-
-      res.status(200).json(account);
+    res.status(200).json(updatedAccount);
   } catch (error) {
       console.error('Error updating account:', error);
       res.status(500).send('Error updating account');
@@ -59,12 +46,7 @@ router.put('/:id', async (req, res) => {
 
 router.post('/', async (req, res) => {
   try {
-    console.log('Received password:', req.body.password);
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
-
-
-    const accountData = { ...req.body, password: hashedPassword };
-    const newAccount = await db.Account.create(accountData);
+    const newAccount = await dbFunctions.createAccount(req.body);
     res.status(201).json(newAccount);
 } catch (error) {
     console.error('Error creating account:', error);
@@ -76,13 +58,8 @@ router.post('/', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   try {
-      const account = await db.Account.findByPk(req.params.id);
-      if (!account) {
-          return res.status(404).send('account not found');
-      }
-
-      await account.destroy();
-      res.status(200).json(account);
+    const deletedAccount = await dbFunctions.deleteAccount(req.params.id);
+    res.status(200).json(deletedAccount);
   } catch (error) {
       console.error('Error deleting account:', error);
       res.status(500).send('Error deleting account');

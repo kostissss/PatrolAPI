@@ -1,16 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const PartnerAccount = require('../models/partnerAccount');
-const db = require('../models');
-const bcrypt = require('bcryptjs'); // Import bcryptjs
-
+const dbFunctions = require('../dbFunctions/partnerAccountFunctions');
 
 // Define user routes
 router.get('/:id', async (req, res) => {
   try {
-      const partnerAccount = await db.PartnerAccount.findByPk(req.params.id,{
-        attributes : { exclude: ['password'] }
-      });
+      const partnerAccount =dbFunctions.getPartnerAccountById(req.params.id);
       if (!partnerAccount) {
           return res.status(404).send('partnerAccount not found');
       }
@@ -25,8 +20,8 @@ router.get('/:id', async (req, res) => {
 
 router.get('/', async (req, res) => {
   try {
-      const partnerAccount = await db.PartnerAccount.findAll({attributes : { exclude: ['password'] }});
-      res.status(200).json(partnerAccount);
+      const partnerAccounts = dbFunctions.getAllPartnerAccounts();
+      res.status(200).json(partnerAccounts);
   } catch (error) {
       console.error('Error getting accounts:', error);
       res.status(500).send('Error getting accounts');
@@ -35,80 +30,44 @@ router.get('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
   try {
-      const partnerAccount = await db.PartnerAccount.findByPk(req.params.id);
-      
-      if (!partnerAccount) {
-          return res.status(404).send('PartnerAccount not found');
-      }
+      const updatedAccount = await dbFunctions.updatePartnerAccount(req.params.id, req.body);
 
-      const hashedPassword = await bcrypt.hash(req.body.password, 10);
-
-      const accountData = { ...req.body, password: hashedPassword };
-
-
-      await partnerAccount.update(accountData);
-
-      res.status(200).json(partnerAccount);
+      res.status(200).json(updatedAccount);
   } catch (error) {
       console.error('Error updating partnerAccount:', error);
       res.status(500).send('Error updating partnerAccount');
   }
 });
 
+
 router.put('/passwordReset/:id', async (req, res) => {
-    try {
-      const partnerAccount = await db.PartnerAccount.findByPk(req.params.id);
-      
-      if (!partnerAccount) {
-        return res.status(404).send('PartnerAccount not found');
-      }
-  
-      const hashedPassword = await bcrypt.hash(req.body.password, 10);
-  
-      // Update only the password field
-      await partnerAccount.update({ password: hashedPassword });
-  
-      res.status(200).json(partnerAccount);
-    } catch (error) {
-      console.error('Error updating partnerAccount:', error);
-      res.status(500).send('Error updating partnerAccount');
-    }
-  });
-  
-
-
+  try {
+    const updatedAccount = await dbFunctions.resetPassword(req.params.id, req.body.password);
+    res.status(200).json(updatedAccount);
+  } catch (error) {
+    console.error('Error resetting password:', error);
+    res.status(500).send('Error resetting password');
+  }
+});
 
 router.post('/', async (req, res) => {
   try {
-    console.log('Received password:', req.body.password);
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
-
-
-    const accountData = { ...req.body, password: hashedPassword };
-    const newAccount = await db.PartnerAccount.create(accountData);
+    const newAccount = await dbFunctions.createPartnerAccount(req.body);
     res.status(201).json(newAccount);
-} catch (error) {
+  } catch (error) {
     console.error('Error creating partnerAccount:', error);
     res.status(500).send('Error creating partnerAccount');
-}
-});
-
-
-
-router.delete('/:id', async (req, res) => {
-  try {
-      const partnerAccount = await db.PartnerAccount.findByPk(req.params.id);
-      if (!partnerAccount) {
-          return res.status(404).send('partnerAccount not found');
-      }
-
-      await partnerAccount.destroy();
-      res.status(200).json(partnerAccount);
-  } catch (error) {
-      console.error('Error deleting partnerAccount:', error);
-      res.status(500).send('Error deleting partnerAccount');
   }
 });
 
-// Export the router
+router.delete('/:id', async (req, res) => {
+  try {
+    const deletedAccount = await dbFunctions.deletePartnerAccount(req.params.id);
+    res.status(200).json(deletedAccount);
+  } catch (error) {
+    console.error('Error deleting partnerAccount:', error);
+    res.status(500).send('Error deleting partnerAccount');
+  }
+});
+
 module.exports = router;
