@@ -8,12 +8,12 @@ const dbFunctions = require('../dbFunctions/accountFunctions');
 // Define user routes
 router.get('/:id', async (req, res) => {
   try {
-      const account =dbFunctions.getAccountById(req.params.id);
+      const account =await dbFunctions.getAccountById(req.params.id);
       if (!account) {
           return res.status(404).send('account not found');
       }
 
-
+      console.log('account2:', account);
       res.status(200).json(account);
   } catch (error) {
       console.error('Error getting account:', error);
@@ -23,7 +23,7 @@ router.get('/:id', async (req, res) => {
 
 router.get('/', async (req, res) => {
   try {
-    const account = dbFunctions.getAllAccounts();
+    const account =await dbFunctions.getAllAccounts();
     res.status(200).json(account);
   } catch (error) {
       console.error('Error getting accounts:', error);
@@ -65,6 +65,18 @@ router.delete('/:id', async (req, res) => {
       res.status(500).send('Error deleting account');
   }
 });
+
+router.post('/login', async (req, res) => {
+  try {
+    const { account, authToken } = await dbFunctions.loginAccount(req.body.id, req.body.password);
+    res.status(200).json({ account, authToken });
+  } catch (error) {
+      console.error('Error logging in:', error);
+      res.status(500).send('Error logging in');
+  }
+}); 
+
+
 
 // Export the router
 module.exports = router;

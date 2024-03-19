@@ -1,6 +1,7 @@
 const db = require('../models');
 const bcrypt = require('bcryptjs');
 
+
 async function getPartnerAccountById(id) {
   try {
     const partnerAccount = await db.PartnerAccount.findByPk(id, {

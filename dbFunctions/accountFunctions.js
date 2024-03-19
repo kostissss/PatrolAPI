@@ -1,11 +1,15 @@
 const db = require('../models');
 const bcrypt = require('bcryptjs');
 
+const jwtUtils =require( '../jwt/jwtUtils');
+
 async function getAccountById(id) {
   try {
     const account = await db.Account.findByPk(id, {
       attributes: { exclude: ['password'] }
+      
     });
+    console.log('account:', account);
     return account;
   } catch (error) {
     throw new Error('Error getting account by ID');
@@ -30,7 +34,7 @@ async function createAccount(accountData) {
     const newAccount = await db.Account.create(accountData);
     return newAccount;
   } catch (error) {
-    throw new Error('Error creating account');
+    throw new Error(error);
   }
 }
 
@@ -76,11 +80,30 @@ async function deleteAccount(id) {
   }
 }
 
+async function loginAccount(id, password) {
+  try {
+    const account = await db.Account.findByPk(id);
+    if (!account) {
+      throw new Error('Account not found');
+    }
+    const passwordMatch = await bcrypt.compare(password, account.password);
+    if (!passwordMatch) {
+      throw new Error('Invalid password');
+    }
+    const authToken = await jwtUtils.generateAuthToken(account.id);
+    return { account, authToken };
+    
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
 module.exports = {
   getAccountById,
   getAllAccounts,
   createAccount,
   updateAccount,
   resetPassword,
-  deleteAccount
+  deleteAccount,
+  loginAccount,
 };

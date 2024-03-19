@@ -5,7 +5,7 @@ const dbFunctions = require('../dbFunctions/partnerAccountFunctions');
 // Define user routes
 router.get('/:id', async (req, res) => {
   try {
-      const partnerAccount =dbFunctions.getPartnerAccountById(req.params.id);
+      const partnerAccount =await dbFunctions.getPartnerAccountById(req.params.id);
       if (!partnerAccount) {
           return res.status(404).send('partnerAccount not found');
       }
@@ -20,7 +20,7 @@ router.get('/:id', async (req, res) => {
 
 router.get('/', async (req, res) => {
   try {
-      const partnerAccounts = dbFunctions.getAllPartnerAccounts();
+      const partnerAccounts = await dbFunctions.getAllPartnerAccounts();
       res.status(200).json(partnerAccounts);
   } catch (error) {
       console.error('Error getting accounts:', error);
