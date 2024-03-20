@@ -6,7 +6,7 @@ const dbFunctions = require('../dbFunctions/notificationFunctions');
 
 router.get('/', async (req, res) => {
     try {
-        const notifications = dbFunctions.getAllNotifications();
+        const notifications = await dbFunctions.getAllNotifications();
         res.status(200).json(notifications);
     } catch (error) {
         console.error('Error getting notifications:', error);
@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
     try {
-        const notification = dbFunctions.getNotificationById(req.params.id);
+        const notification =await dbFunctions.getNotificationById(req.params.id);
         res.status(200).json(notification);
     } catch (error) {
         console.error('Error getting notification:', error);
@@ -28,7 +28,7 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', async (req, res) => {
     try {
-        const newNotification = dbFunctions.createNotification(req.body);
+        const newNotification =await dbFunctions.createNotification(req.body);
         res.status(201).json(newNotification);
     } catch (error) {
         console.error('Error creating notification:', error);
@@ -39,7 +39,7 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
     try {
-        const updatedNotification = dbFunctions.updateNotification(req.params.id, req.body);
+        const updatedNotification = await dbFunctions.updateNotification(req.params.id, req.body);
 
         res.status(200).json(updatedNotification);
     } catch (error) {
@@ -51,7 +51,7 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
     try {
-        const deletedNotification = dbFunctions.deleteNotification(req.params.id);
+        const deletedNotification =await dbFunctions.deleteNotification(req.params.id);
         res.status(200).json(deletedNotification);
     } catch (error) {
         console.error('Error deleting notification:', error);
