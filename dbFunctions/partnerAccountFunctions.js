@@ -77,11 +77,20 @@ async function deletePartnerAccount(id) {
   }
 }
 
+async function findPartnerAccountByEmail(accountData) {
+  return await db.PartnerAccount.findOne({ where: { email: accountData.email } });
+}
+async function findPartnerAccountByUsername(accountData) {
+  return await db.PartnerAccount.findOne({ where: { uname: accountData.uname } });
+}
+
 module.exports = {
   getPartnerAccountById,
   getAllPartnerAccounts,
   createPartnerAccount,
   updatePartnerAccount,
   resetPassword,
-  deletePartnerAccount
+  deletePartnerAccount,
+  findPartnerAccountByEmail,
+  findPartnerAccountByUsername
 };

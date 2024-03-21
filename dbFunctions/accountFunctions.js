@@ -29,13 +29,31 @@ async function getAllAccounts() {
 
 async function createAccount(accountData) {
   try {
+
+    let user = await db.Account.findOne({ where: { email: accountData.email  } });
+    console.log('user:', user);
+        if (user)
+            throw new Error ( "User with given email already exist" );
+
+    user = await db.Account.findOne({ where: { uname: accountData.uname  } });
+    console.log('user:', user);
+        if (user)
+            return ({ error: true, message: "User with given username already exist" });
     const hashedPassword = await bcrypt.hash(accountData.password, 10);
+
     accountData.password = hashedPassword;
     const newAccount = await db.Account.create(accountData);
     return newAccount;
   } catch (error) {
     throw new Error(error);
   }
+}
+
+async function findAccountByEmail(accountData) {
+  return await db.Account.findOne({ where: { email: accountData.email } });
+}
+async function findAccountByUsername(accountData) {
+  return await db.Account.findOne({ where: { uname: accountData.uname } });
 }
 
 async function updateAccount(id, newData) {
@@ -106,4 +124,7 @@ module.exports = {
   resetPassword,
   deleteAccount,
   loginAccount,
+  findAccountByEmail,
+  findAccountByUsername
+
 };

@@ -52,6 +52,14 @@ router.put('/passwordReset/:id', async (req, res) => {
 
 router.post('/', async (req, res) => {
   try {
+    const emailExists = await dbFunctions.findPartnerAccountByEmail(req.body);
+    if (emailExists) {
+        return res.status(400).send('Email already exists');
+    }
+    const usernameExists = await dbFunctions.findPartnerAccountByUsername(req.body);
+    if (usernameExists) {
+        return res.status(400).send('Username already exists');
+    }
     const newAccount = await dbFunctions.createPartnerAccount(req.body);
     res.status(201).json(newAccount);
   } catch (error) {

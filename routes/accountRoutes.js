@@ -46,11 +46,19 @@ router.put('/:id', async (req, res) => {
 
 router.post('/', async (req, res) => {
   try {
+    const emailExists = await dbFunctions.findAccountByEmail(req.body);
+    if (emailExists) {
+        return res.status(400).send('Email already exists');
+    }
+    const usernameExists = await dbFunctions.findAccountByUsername(req.body);
+    if (usernameExists) {
+        return res.status(400).send('Username already exists');
+    }
     const newAccount = await dbFunctions.createAccount(req.body);
     res.status(201).json(newAccount);
 } catch (error) {
     console.error('Error creating account:', error);
-    res.status(500).send('Error creating account');
+    res.status(500).send(error);
 }
 });
 
@@ -68,6 +76,10 @@ router.delete('/:id', async (req, res) => {
 
 router.post('/login', async (req, res) => {
   try {
+    const userNameExists = await dbFunctions.findAccountByUsername(req.body);
+    if (!userNameExists) {
+        return res.status(400).send('Username does not exist');
+    }
     const { account, authToken } = await dbFunctions.loginAccount(req.body.id, req.body.password);
     res.status(200).json({ account, authToken });
   } catch (error) {
