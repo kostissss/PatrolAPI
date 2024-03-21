@@ -12,7 +12,7 @@ async function getAccountById(id) {
     console.log('account:', account);
     return account;
   } catch (error) {
-    throw new Error('Error getting account by ID');
+    throw new Error(error);
   }
 }
 
@@ -23,7 +23,7 @@ async function getAllAccounts() {
     });
     return accounts;
   } catch (error) {
-    throw new Error('Error getting all accounts');
+    throw new Error(error);
   }
 }
 
@@ -42,14 +42,14 @@ async function updateAccount(id, newData) {
   try {
     const account = await db.Account.findByPk(id);
     if (!account) {
-      throw new Error('Account not found');
+      throw new Error(error);
     }
     const hashedPassword = await bcrypt.hash(newData.password, 10);
     newData.password = hashedPassword;
     await account.update(newData);
     return account;
   } catch (error) {
-    throw new Error('Error updating account');
+    throw new Error(error);
   }
 }
 
@@ -57,13 +57,13 @@ async function resetPassword(id, newPassword) {
   try {
     const account = await db.Account.findByPk(id);
     if (!account) {
-      throw new Error('Account not found');
+      throw new Error(error);
     }
     const hashedPassword = await bcrypt.hash(newPassword, 10);
     await account.update({ password: hashedPassword });
     return account;
   } catch (error) {
-    throw new Error('Error resetting password');
+    throw new Error(error);
   }
 }
 
@@ -71,12 +71,12 @@ async function deleteAccount(id) {
   try {
     const account = await db.Account.findByPk(id);
     if (!account) {
-      throw new Error('Account not found');
+      throw new Error(error);
     }
     await account.destroy();
     return account;
   } catch (error) {
-    throw new Error('Error deleting account');
+    throw new Error(error);
   }
 }
 
@@ -84,11 +84,11 @@ async function loginAccount(id, password) {
   try {
     const account = await db.Account.findByPk(id);
     if (!account) {
-      throw new Error('Account not found');
+      throw new Error(error);
     }
     const passwordMatch = await bcrypt.compare(password, account.password);
     if (!passwordMatch) {
-      throw new Error('Invalid password');
+      throw new Error(error);
     }
     const authToken = await jwtUtils.generateAuthToken(account.id);
     return { account, authToken };

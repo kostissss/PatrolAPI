@@ -1,3 +1,5 @@
+
+
 module.exports = function(sequelize, DataTypes) {
     const Account = sequelize.define('Account', {
         // Model attributes are defined here
@@ -72,5 +74,12 @@ module.exports = function(sequelize, DataTypes) {
      
        
     });
+
+    Account.associate = models => {
+        Account.hasMany(models.Notification,{
+            foreignKey: 'userId',
+            onDelete : 'cascade'
+        });
+    }
     return Account;
 }

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 
-const dbFunctions = require('../dbFunctions/accountFunctions');
+const dbFunctions = require('../dbFunctions/AccountFunctions');
 
 
 // Define user routes

@@ -1,3 +1,6 @@
+
+const { Deferrable } = require('sequelize');
+
 module.exports = function(sequelize, DataTypes) {
     const Notification = sequelize.define('Notification', {
         // Model attributes are defined here
@@ -5,6 +8,7 @@ module.exports = function(sequelize, DataTypes) {
         userId: {
             type: DataTypes.INTEGER,
             allowNull: false,
+           
             validate: {
                 notEmpty: true
             }
@@ -25,5 +29,13 @@ module.exports = function(sequelize, DataTypes) {
             }
         },
     });
+
+    Notification.associate = models => {
+        Notification.belongsTo(models.Account,{
+            foreignKey: 'userId',
+            allowNull: false,
+            onDelete: 'CASCADE' 
+        });
+    }
     return Notification;
 }

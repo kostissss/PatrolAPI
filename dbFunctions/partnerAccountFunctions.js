@@ -9,7 +9,7 @@ async function getPartnerAccountById(id) {
     });
     return partnerAccount;
   } catch (error) {
-    throw new Error('Error getting partnerAccount by ID');
+    throw new Error(error);
   }
 }
 
@@ -20,7 +20,7 @@ async function getAllPartnerAccounts() {
     });
     return partnerAccounts;
   } catch (error) {
-    throw new Error('Error getting all partnerAccounts');
+    throw new Error(error);
   }
 }
 
@@ -31,7 +31,7 @@ async function createPartnerAccount(accountData) {
     const newAccount = await db.PartnerAccount.create(accountData);
     return newAccount;
   } catch (error) {
-    throw new Error('Error creating partnerAccount');
+    throw new Error(error);
   }
 }
 
@@ -39,14 +39,14 @@ async function updatePartnerAccount(id, newData) {
   try {
     const partnerAccount = await db.PartnerAccount.findByPk(id);
     if (!partnerAccount) {
-      throw new Error('PartnerAccount not found');
+      throw new Error(error);
     }
     const hashedPassword = await bcrypt.hash(newData.password, 10);
     newData.password = hashedPassword;
     await partnerAccount.update(newData);
     return partnerAccount;
   } catch (error) {
-    throw new Error('Error updating partnerAccount');
+    throw new Error(error);
   }
 }
 
@@ -54,13 +54,13 @@ async function resetPassword(id, newPassword) {
   try {
     const partnerAccount = await db.PartnerAccount.findByPk(id);
     if (!partnerAccount) {
-      throw new Error('PartnerAccount not found');
+      throw new Error(error);
     }
     const hashedPassword = await bcrypt.hash(newPassword, 10);
     await partnerAccount.update({ password: hashedPassword });
     return partnerAccount;
   } catch (error) {
-    throw new Error('Error resetting password');
+    throw new Error(error);
   }
 }
 
@@ -68,12 +68,12 @@ async function deletePartnerAccount(id) {
   try {
     const partnerAccount = await db.PartnerAccount.findByPk(id);
     if (!partnerAccount) {
-      throw new Error('PartnerAccount not found');
+      throw new Error(error);
     }
     await partnerAccount.destroy();
     return partnerAccount;
   } catch (error) {
-    throw new Error('Error deleting partnerAccount');
+    throw new Error(error);
   }
 }
 

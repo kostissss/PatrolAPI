@@ -26,7 +26,7 @@ app.use('/accounts', accountRoutes);
 app.use('/notifications', notificationRoutes);
 app.use('/partner/accounts', partnerAccountRoutes);
 
-db.sequelize.sync().then(() => {
+db.sequelize.sync( ).then(() => {
 
 app.listen(PORT, () => {
     console.log('Server is running on port 3000');
