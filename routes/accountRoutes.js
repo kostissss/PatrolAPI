@@ -76,12 +76,12 @@ router.delete('/:id', async (req, res) => {
 
 router.post('/login', async (req, res) => {
   try {
-    const userNameExists = await dbFunctions.findAccountByUsername(req.body);
-    if (!userNameExists) {
-        return res.status(400).send('Username does not exist');
-    }
-    const { account, authToken } = await dbFunctions.loginAccount(req.body.id, req.body.password);
-    res.status(200).json({ account, authToken });
+    // const userNameExists = await dbFunctions.findAccountByUsername(req.body);
+    // if (!userNameExists) {
+    //     return res.status(400).send('Username does not exist');
+    // }
+    const { account, authToken,refreshToken } = await dbFunctions.loginAccount(req.body.id, req.body.password);
+    res.status(200).json({ account, authToken,refreshToken });
   } catch (error) {
       console.error('Error logging in:', error);
       res.status(500).send('Error logging in');

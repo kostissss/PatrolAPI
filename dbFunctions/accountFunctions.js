@@ -1,4 +1,5 @@
 const db = require('../models');
+const authTokenFunctions = require('../dbFunctions/authTokenFunctions');
 const bcrypt = require('bcryptjs');
 
 const jwtUtils =require( '../jwt/jwtUtils');
@@ -108,8 +109,9 @@ async function loginAccount(id, password) {
     if (!passwordMatch) {
       throw new Error(error);
     }
-    const authToken = await jwtUtils.generateAuthToken(account.id);
-    return { account, authToken };
+    const authToken =  jwtUtils.generateAuthToken(account.id);
+    const refreshToken = await authTokenFunctions.createRefreshToken(id);
+    return { account, authToken,refreshToken };
     
   } catch (error) {
     throw new Error(error);
