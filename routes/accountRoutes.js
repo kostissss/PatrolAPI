@@ -81,7 +81,11 @@ router.post('/login', async (req, res) => {
     //     return res.status(400).send('Username does not exist');
     // }
     const { account, authToken,refreshToken } = await dbFunctions.loginAccount(req.body.id, req.body.password);
-    res.status(200).json({ account, authToken,refreshToken });
+    res.cookie('Refresh-Token', refreshToken.token, {
+      httpOnly: true,
+      
+  });
+    res.status(200).json({ account, authToken });
   } catch (error) {
       console.error('Error logging in:', error);
       res.status(500).send('Error logging in');
