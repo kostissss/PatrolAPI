@@ -109,7 +109,7 @@ async function loginAccount(id, password) {
     if (!passwordMatch) {
       throw new Error(error);
     }
-    const authToken =  jwtUtils.generateAuthToken(account.id);
+    const authToken =  jwtUtils.generateAuthToken(id);
     const refreshToken = await authTokenFunctions.createRefreshToken(id);
     return { account, authToken,refreshToken };
     

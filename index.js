@@ -4,6 +4,7 @@ const PORT = 3000;
 const accountRoutes = require('./routes/accountRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
 const partnerAccountRoutes = require('./routes/partnerAccountRoutes');
+const cookieParser = require("cookie-parser");
 app.use(express.json());
 
 const db = require('./models');
@@ -15,6 +16,7 @@ app.use(function(req, res, next) {
   next();
 });
 
+app.use(cookieParser());
 
 app.get('/', (req, res) => {
     res.send('Hello World');

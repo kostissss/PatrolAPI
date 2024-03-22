@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-
+const authTokenFunctions = require('../dbFunctions/authTokenFunctions');
 const dbFunctions = require('../dbFunctions/AccountFunctions');
 
 
@@ -64,15 +64,7 @@ router.post('/', async (req, res) => {
 
 
 
-router.delete('/:id', async (req, res) => {
-  try {
-    const deletedAccount = await dbFunctions.deleteAccount(req.params.id);
-    res.status(200).json(deletedAccount);
-  } catch (error) {
-      console.error('Error deleting account:', error);
-      res.status(500).send('Error deleting account');
-  }
-});
+
 
 router.post('/login', async (req, res) => {
   try {
@@ -85,12 +77,35 @@ router.post('/login', async (req, res) => {
       httpOnly: true,
       
   });
+  
     res.status(200).json({ account, authToken });
   } catch (error) {
       console.error('Error logging in:', error);
       res.status(500).send('Error logging in');
   }
 }); 
+
+router.delete('/logout', async (req, res) => { // to revoke or to delete a refresh token ?
+  try {
+    const refreshToken = req.cookies['Refresh-Token'];
+    const deletedToken = await authTokenFunctions.deleteRefreshToken(refreshToken);
+    res.clearCookie('Refresh-Token');
+    res.status(200).json(deletedToken);
+  } catch (error) {
+      console.error('Error logging out:', error);
+      res.status(500).send('Error logging out');
+  }
+});
+
+router.delete('/:id', async (req, res) => {
+  try {
+    const deletedAccount = await dbFunctions.deleteAccount(req.params.id);
+    res.status(200).json(deletedAccount);
+  } catch (error) {
+      console.error('Error deleting account:', error);
+      res.status(500).send('Error deleting account');
+  }
+});
 
 
 

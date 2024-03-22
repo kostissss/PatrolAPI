@@ -4,7 +4,7 @@ async function createRefreshToken(userId) {
     try {
         let token = uuidv4();
         let expiryDate = new Date();
-        expiryDate.setDate(expiryDate.getDate() + 30);
+        expiryDate.setDate(expiryDate.getDate() + 7);
         
         
         const refreshToken = await db.authToken.create({
@@ -52,10 +52,23 @@ async function findRefreshToken(token){
         throw new Error(error);
       }
 }
+
+async function revokeToken(token){
+    try {
+        const tokenToUpdate = await findRefreshToken(token);
+        const updatedToken = await tokenToUpdate.update({ expiryDate: Date.now() });
+        console.log('Token attribute updated successfully:', updatedToken);
+        return updatedToken;
+        
+      } catch (error) {
+        throw new Error(error);
+      }
+}
 module.exports = {
     createRefreshToken,
     verifyExpiration,
     deleteRefreshToken,
-    findRefreshToken
+    findRefreshToken,
+    revokeToken
   };
   
