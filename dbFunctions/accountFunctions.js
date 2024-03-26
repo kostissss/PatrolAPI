@@ -63,8 +63,11 @@ async function updateAccount(id, newData) {
     if (!account) {
       throw new Error(error);
     }
-    const hashedPassword = await bcrypt.hash(newData.password, 10);
-    newData.password = hashedPassword;
+    if (newData.password) {
+      const hashedPassword = await bcrypt.hash(newData.password, 10);
+      newData.password = hashedPassword;
+    }
+    
     await account.update(newData);
     return account;
   } catch (error) {
