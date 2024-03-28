@@ -13,6 +13,7 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "http://localhost:4200");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.header("Access-Control-Allow-Credentials", "true");
   next();
 });
 
@@ -28,7 +29,7 @@ app.use('/accounts', accountRoutes);
 app.use('/notifications', notificationRoutes);
 app.use('/partner/accounts', partnerAccountRoutes);
 
-db.sequelize.sync( ).then(() => {
+db.sequelize.sync({ /*alter: true*/ } ).then(() => {
 
 app.listen(PORT, () => {
     console.log('Server is running on port 3000');

@@ -102,18 +102,18 @@ async function deleteAccount(id) {
   }
 }
 
-async function loginAccount(id, password) {
+async function loginAccount(accountData) {
   try {
-    const account = await db.Account.findByPk(id);
+    const account = await findAccountByUsername(accountData);
     if (!account) {
       throw new Error(error);
     }
-    const passwordMatch = await bcrypt.compare(password, account.password);
+    const passwordMatch = await bcrypt.compare(accountData.password, account.password);
     if (!passwordMatch) {
       throw new Error(error);
     }
-    const authToken =  jwtUtils.generateAuthToken(id);
-    const refreshToken = await authTokenFunctions.createRefreshToken(id);
+    const authToken =  jwtUtils.generateAuthToken(account.id);
+    const refreshToken = await authTokenFunctions.createRefreshToken(account.id);
     return { account, authToken,refreshToken };
     
   } catch (error) {

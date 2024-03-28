@@ -68,6 +68,14 @@ module.exports = function(sequelize, DataTypes) {
                 notEmpty: true
             }
         },
+        role :{
+            type: DataTypes.STRING,
+            enum: ['admin', 'partner', 'member'],
+            allowNull: false,
+            validate: {
+                notEmpty: true
+            }
+        }
 
 
 
