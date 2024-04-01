@@ -1,12 +1,12 @@
+
+
 module.exports = function(sequelize, DataTypes) {
     const Account = sequelize.define('Account', {
         // Model attributes are defined here
         name: {
             type: DataTypes.STRING,
-            allowNull: false,
-            validate: {
-                notEmpty: true
-            }
+            allowNull: true,
+            
         },
         uname: {
             type: DataTypes.STRING,
@@ -21,50 +21,53 @@ module.exports = function(sequelize, DataTypes) {
             validate: {
                 notEmpty: true
             }
+            
         },
         password: {
             type: DataTypes.STRING,
             allowNull: false,
-            validate: {
-                notEmpty: true
-            }
+            
         },
         timeZone: {
             type: DataTypes.STRING,
             allowNull: false,
-            validate: {
-                notEmpty: true
-            }
+            
         },
         
         subscriptionFrequency: {
 
             type: DataTypes.STRING,
-            allowNull: false,
-            validate: {
-                notEmpty: true
-            }
+            allowNull: true,
+            
         },
         expirationDate: {
             type: DataTypes.DATE,
-            allowNull: false,
-            validate: {
-                notEmpty: true
-            }
+            allowNull: true,
+            
         },
         plan: {
             type: DataTypes.STRING,
-            allowNull: false,
-            validate: {
-                notEmpty: true
-            }
+            allowNull: true,
+            
         },
         selectedOption :{
             type: DataTypes.STRING,
+            allowNull: true,
+            
+        },
+        role :{
+            type: DataTypes.STRING,
+            enum: ['admin', 'partner', 'member'],
             allowNull: false,
             validate: {
-                notEmpty: true
+                notEmpty: false
             }
+        },
+        
+        language: {
+            type: DataTypes.STRING,
+            allowNull: true,
+            
         },
 
 
@@ -72,5 +75,12 @@ module.exports = function(sequelize, DataTypes) {
      
        
     });
+
+    Account.associate = models => {
+        Account.hasMany(models.Notification,{
+            foreignKey: 'userId',
+            onDelete : 'cascade'
+        });
+    }
     return Account;
 }

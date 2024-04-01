@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-
-const dbFunctions = require('../dbFunctions/accountFunctions');
+const authTokenFunctions = require('../dbFunctions/authTokenFunctions');
+const dbFunctions = require('../dbFunctions/AccountFunctions');
 
 
 // Define user routes
@@ -46,15 +46,62 @@ router.put('/:id', async (req, res) => {
 
 router.post('/', async (req, res) => {
   try {
+    const emailExists = await dbFunctions.findAccountByEmail(req.body);
+    console.log(req.body)
+    if (emailExists) {
+        return res.status(400).send('Email already exists');
+    }
+    const usernameExists = await dbFunctions.findAccountByUsername(req.body);
+    if (usernameExists) {
+        return res.status(400).send('Username already exists');
+    }
     const newAccount = await dbFunctions.createAccount(req.body);
     res.status(201).json(newAccount);
 } catch (error) {
     console.error('Error creating account:', error);
-    res.status(500).send('Error creating account');
+    res.status(500).send(error);
 }
 });
 
 
+
+
+
+router.post('/login', async (req, res) => {
+  try {
+    // const userNameExists = await dbFunctions.findAccountByUsername(req.body);
+    // if (!userNameExists) {
+    //     return res.status(400).send('Username does not exist');
+    // }
+    const { account, authToken,refreshToken } = await dbFunctions.loginAccount(req.body);
+    res.cookie('Refresh-Token', refreshToken.token, {
+      httpOnly: true,
+      secure: true,
+      path: '/'  // Set the path to root
+      ,expires: new Date(refreshToken.expiryDate)
+      
+  });
+    console.log('account:', account, 'authToken:', authToken, 'refreshToken:', refreshToken);
+    res.status(200).json({ account, authToken,refreshToken });
+  } catch (error) {
+      console.error('Error logging in:', error);
+      res.status(500).send('Error logging in');
+  }
+}); 
+
+router.delete('/logout', async (req, res) => { // to revoke or to delete a refresh token ?
+  try {
+    console.log('Cookies:', req.cookies);
+    const refreshToken = req.cookies['Refresh-Token'];
+    console.log('refreshToken:', refreshToken);
+    const deletedToken = await authTokenFunctions.deleteRefreshToken(refreshToken);
+    res.clearCookie('Refresh-Token');
+    res.status(200).json(deletedToken);
+  } catch (error) {
+      console.error('Error logging out:', error);
+      res.status(500).send('Error logging out');
+  }
+});
 
 router.delete('/:id', async (req, res) => {
   try {
@@ -66,15 +113,6 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-router.post('/login', async (req, res) => {
-  try {
-    const { account, authToken } = await dbFunctions.loginAccount(req.body.id, req.body.password);
-    res.status(200).json({ account, authToken });
-  } catch (error) {
-      console.error('Error logging in:', error);
-      res.status(500).send('Error logging in');
-  }
-}); 
 
 
 

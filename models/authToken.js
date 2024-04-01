@@ -1,8 +1,7 @@
 
-const { Deferrable } = require('sequelize');
 
 module.exports = function(sequelize, DataTypes) {
-    const Notification = sequelize.define('Notification', {
+    const authToken = sequelize.define('authToken', {
         // Model attributes are defined here
         
         userId: {
@@ -14,15 +13,15 @@ module.exports = function(sequelize, DataTypes) {
             }
         },
         
-        notificationTitle: {
+        token: {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
                 notEmpty: true
             }
         },
-        notificationMessage: {
-            type: DataTypes.STRING,
+        expiryDate: {
+            type: DataTypes.DATE,
             allowNull: false,
             validate: {
                 notEmpty: true
@@ -30,12 +29,13 @@ module.exports = function(sequelize, DataTypes) {
         },
     });
 
-    Notification.associate = models => {
-        Notification.belongsTo(models.Account,{
+    authToken.associate = models => {
+        authToken.belongsTo(models.Account,{
             foreignKey: 'userId',
+            
             allowNull: false,
             onDelete: 'CASCADE' 
         });
     }
-    return Notification;
+    return authToken;
 }
