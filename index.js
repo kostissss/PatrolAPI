@@ -29,7 +29,7 @@ app.use('/accounts', accountRoutes);
 app.use('/notifications', notificationRoutes);
 
 
-db.sequelize.sync({ alter: true  } ).then(() => {
+db.sequelize.sync({/* alter: true*/  } ).then(() => {
 
 app.listen(PORT, () => {
     console.log('Server is running on port 3000');
