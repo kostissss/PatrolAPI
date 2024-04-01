@@ -78,6 +78,7 @@ router.post('/login', async (req, res) => {
       httpOnly: true,
       secure: true,
       path: '/'  // Set the path to root
+      ,expires: new Date(refreshToken.expiryDate)
       
   });
     console.log('account:', account, 'authToken:', authToken, 'refreshToken:', refreshToken);

@@ -3,7 +3,7 @@ const app = express();
 const PORT = 3000;
 const accountRoutes = require('./routes/accountRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
-const partnerAccountRoutes = require('./routes/partnerAccountRoutes');
+
 const cookieParser = require("cookie-parser");
 app.use(express.json());
 
@@ -27,9 +27,9 @@ app.get('/', (req, res) => {
 
 app.use('/accounts', accountRoutes);
 app.use('/notifications', notificationRoutes);
-app.use('/partner/accounts', partnerAccountRoutes);
 
-db.sequelize.sync({ /*alter: true*/ } ).then(() => {
+
+db.sequelize.sync({ alter: true  } ).then(() => {
 
 app.listen(PORT, () => {
     console.log('Server is running on port 3000');
