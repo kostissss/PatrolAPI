@@ -1,23 +1,15 @@
+// Notification model definition
 module.exports = function(sequelize, DataTypes) {
     const Notification = sequelize.define('Notification', {
-        // Model attributes are defined here
-        
         userId: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            validate: {
-                notEmpty: true
+            unique: true, // Ensures UserID is unique
+            references: {
+                model: 'Account', // References the Account model
+                key: 'id' // References the ID field in Account model
             }
         },
-        
-        username: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            validate: {
-                notEmpty: true
-            }
-        },
-
         notificationTitle: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -31,7 +23,8 @@ module.exports = function(sequelize, DataTypes) {
             validate: {
                 notEmpty: true
             }
-        },
+        }
     });
+
     return Notification;
-}
+};
