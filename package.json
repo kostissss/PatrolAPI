@@ -12,12 +12,15 @@
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+<<<<<<< HEAD
+=======
+    "cookie-parser": "^1.4.6",
+>>>>>>> b98ab745721d555bcfb810681117c9e73bd60529
     "cors": "^2.8.5",
     "express": "^4.18.3",
     "fs": "^0.0.1-security",
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.9.2",
-    "nodemon": "^3.1.0",
     "path": "^0.12.7",
     "sequelize": "^6.37.1",
     "sequelize-cli": "^6.6.2"
