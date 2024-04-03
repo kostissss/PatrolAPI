@@ -75,7 +75,7 @@ router.post('/login', async (req, res) => {
     // }
     const { account, authToken,refreshToken } = await dbFunctions.loginAccount(req.body);
     res.cookie('Refresh-Token', refreshToken.token, {
-      httpOnly: true,
+      httpOnly: false,
       secure: false,
       path: '/'  // Set the path to root
       ,expires: new Date(refreshToken.expiryDate)
@@ -110,6 +110,28 @@ router.delete('/:id', async (req, res) => {
   } catch (error) {
       console.error('Error deleting account:', error);
       res.status(500).send('Error deleting account');
+  }
+});
+
+router.put('/refreshToken', async (req, res) => {
+  try {
+    const refreshToken = req.cookies['Refresh-Token'];
+    const updatedToken = await authTokenFunctions.refreshToken(refreshToken);
+    const newJwt = jwtUtils.generateAuthToken(updatedToken.userId);
+    res.cookie('Refresh-Token', refreshToken.token, {
+      httpOnly: false,
+      secure: false,
+      path: '/'  // Set the path to root
+      ,expires: new Date(refreshToken.expiryDate)
+      
+  });
+
+
+    
+    res.status(200).json({  newJwt,updatedToken });
+  } catch (error) {
+      console.error('Error deleting refresh token:', error);
+      res.status(500).send('Error deleting refresh token');
   }
 });
 

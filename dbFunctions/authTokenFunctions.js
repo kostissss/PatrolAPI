@@ -64,11 +64,29 @@ async function revokeToken(token){
         throw new Error(error);
       }
 }
+
+
+async function refreshToken(token){
+    try {
+        const refreshToken = await findRefreshToken(token);
+        const updatedToken = await createRefreshToken(refreshToken.userId);
+        console.log('Token attribute updated successfully:', updatedToken);
+        return updatedToken;
+        
+      } catch (error) {
+        throw new Error(error);
+      }
+}
+
+
+
+
 module.exports = {
     createRefreshToken,
     verifyExpiration,
     deleteRefreshToken,
     findRefreshToken,
-    revokeToken
+    revokeToken,
+    refreshToken
   };
   
