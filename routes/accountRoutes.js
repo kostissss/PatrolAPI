@@ -76,7 +76,7 @@ router.post('/login', async (req, res) => {
     const { account, authToken,refreshToken } = await dbFunctions.loginAccount(req.body);
     res.cookie('Refresh-Token', refreshToken.token, {
       httpOnly: true,
-      secure: true,
+      secure: false,
       path: '/'  // Set the path to root
       ,expires: new Date(refreshToken.expiryDate)
       
