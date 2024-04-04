@@ -43,6 +43,7 @@ async function deleteRefreshToken(token){
 }
 async function findRefreshToken(token){
     try {
+      console.log("here2")
         const refreshToken = await db.authToken.findOne({ where: { token: token } });
         if (!refreshToken) {
           throw new Error('Token not found');
@@ -68,8 +69,10 @@ async function revokeToken(token){
 
 async function refreshToken(token){
     try {
+      console.log("here")
         const refreshToken = await findRefreshToken(token);
-        const updatedToken = await createRefreshToken(refreshToken.userId);
+        console.log('Refresh token found:', refreshToken);
+        const updatedToken = await updateRefreshToken(refreshToken);
         console.log('Token attribute updated successfully:', updatedToken);
         return updatedToken;
         
@@ -77,6 +80,27 @@ async function refreshToken(token){
         throw new Error(error);
       }
 }
+
+async function updateRefreshToken(refreshToken){
+    try {
+      
+      let token = uuidv4();
+      let expiryDate = new Date();
+      expiryDate.setDate(expiryDate.getDate() + 7);
+      
+      const updatedToken = await refreshToken.update({ expiryDate:expiryDate ,token:token });
+      console.log('Token attribute updated successfully:', updatedToken);
+      
+      return updatedToken;
+        
+        
+        
+        
+      } catch (error) {
+        throw new Error(error);
+      }
+}
+
 
 
 

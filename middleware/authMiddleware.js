@@ -2,7 +2,7 @@
 const { verifyAuthToken } = require('../jwt/jwtUtils');
 function authMiddleware(req, res, next) {
 
-    if (req.path == '/accounts/login' || req.path === '/register') { 
+    if (req.path == '/accounts/login' || req.path === '/register' || req.path === '/accounts/refreshToken') { 
       console.log('Skipping authentication for login and registration routes');
         return next();  // Skip authentication for login and registration routes
       }  
@@ -18,7 +18,9 @@ function authMiddleware(req, res, next) {
   console.log(token);
 
   try {
+    console.log('Verifying token:', token);
     const decoded = verifyAuthToken(token); 
+    console.log('Decoded:', decoded);
     req.user = decoded; 
     next(); 
   } catch (error) {

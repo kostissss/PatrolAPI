@@ -3,6 +3,7 @@ const router = express.Router();
 
 const authTokenFunctions = require('../dbFunctions/authTokenFunctions');
 const dbFunctions = require('../dbFunctions/AccountFunctions');
+const jwtUtils =require( '../jwt/jwtUtils');
 
 
 // Define user routes
@@ -28,6 +29,33 @@ router.get('/', async (req, res) => {
   } catch (error) {
       console.error('Error getting accounts:', error);
       res.status(500).send('Error getting accounts');
+  }
+});
+
+
+
+
+router.put('/refreshToken', async (req, res) => {
+  try {
+    console.log('Cookies:', req.cookies);
+    const refreshToken = req.cookies['Refresh-Token'];
+    console.log('refreshToken:', refreshToken);
+    const updatedToken = await authTokenFunctions.refreshToken(refreshToken);
+    const newJwt = jwtUtils.generateAuthToken(updatedToken.userId);
+    res.cookie('Refresh-Token', updatedToken.token, {
+      httpOnly: false,
+      secure: false,
+      path: '/'  // Set the path to root
+      ,expires: new Date(updatedToken.expiryDate)
+      
+  });
+
+
+    
+    res.status(200).json({  newJwt,updatedToken });
+  } catch (error) {
+      console.error('Error deleting refresh token:', error);
+      res.status(500).send('Error deleting refresh token');
   }
 });
 
@@ -113,27 +141,7 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-router.put('/refreshToken', async (req, res) => {
-  try {
-    const refreshToken = req.cookies['Refresh-Token'];
-    const updatedToken = await authTokenFunctions.refreshToken(refreshToken);
-    const newJwt = jwtUtils.generateAuthToken(updatedToken.userId);
-    res.cookie('Refresh-Token', refreshToken.token, {
-      httpOnly: false,
-      secure: false,
-      path: '/'  // Set the path to root
-      ,expires: new Date(refreshToken.expiryDate)
-      
-  });
 
-
-    
-    res.status(200).json({  newJwt,updatedToken });
-  } catch (error) {
-      console.error('Error deleting refresh token:', error);
-      res.status(500).send('Error deleting refresh token');
-  }
-});
 
 
 
