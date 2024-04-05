@@ -7,6 +7,34 @@ const jwtUtils =require( '../jwt/jwtUtils');
 
 
 // Define user routes
+
+
+router.get('/refreshToken', async (req, res) => {
+  try {
+    console.log('Cookies:', req.cookies);
+    const refreshToken = req.cookies['Refresh-Token'];
+    console.log('refreshToken:', refreshToken);
+    const updatedToken = await authTokenFunctions.refreshToken(refreshToken);
+    const authToken = jwtUtils.generateAuthToken(updatedToken.userId);
+    res.cookie('Refresh-Token', updatedToken.token, {
+      httpOnly: false,
+      secure: false,
+      path: '/'  // Set the path to root
+      ,expires: new Date(updatedToken.expiryDate)
+      
+  });
+
+
+    
+    res.status(200).json({  authToken,updatedToken });
+  } catch (error) {
+      console.error('Error deleting refresh token:', error);
+      res.status(500).send('Error deleting refresh token');
+  }
+});
+
+
+
 router.get('/:id', async (req, res) => {
   try {
       const account =await dbFunctions.getAccountById(req.params.id);
@@ -35,29 +63,7 @@ router.get('/', async (req, res) => {
 
 
 
-router.put('/refreshToken', async (req, res) => {
-  try {
-    console.log('Cookies:', req.cookies);
-    const refreshToken = req.cookies['Refresh-Token'];
-    console.log('refreshToken:', refreshToken);
-    const updatedToken = await authTokenFunctions.refreshToken(refreshToken);
-    const newJwt = jwtUtils.generateAuthToken(updatedToken.userId);
-    res.cookie('Refresh-Token', updatedToken.token, {
-      httpOnly: false,
-      secure: false,
-      path: '/'  // Set the path to root
-      ,expires: new Date(updatedToken.expiryDate)
-      
-  });
 
-
-    
-    res.status(200).json({  newJwt,updatedToken });
-  } catch (error) {
-      console.error('Error deleting refresh token:', error);
-      res.status(500).send('Error deleting refresh token');
-  }
-});
 
 router.put('/:id', async (req, res) => {
   try {

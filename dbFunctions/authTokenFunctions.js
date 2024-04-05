@@ -43,7 +43,7 @@ async function deleteRefreshToken(token){
 }
 async function findRefreshToken(token){
     try {
-      console.log("here2")
+      
         const refreshToken = await db.authToken.findOne({ where: { token: token } });
         if (!refreshToken) {
           throw new Error('Token not found');
@@ -69,7 +69,7 @@ async function revokeToken(token){
 
 async function refreshToken(token){
     try {
-      console.log("here")
+      
         const refreshToken = await findRefreshToken(token);
         console.log('Refresh token found:', refreshToken);
         const updatedToken = await updateRefreshToken(refreshToken);

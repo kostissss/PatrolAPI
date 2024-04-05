@@ -2,7 +2,7 @@
 const { verifyAuthToken } = require('../jwt/jwtUtils');
 function authMiddleware(req, res, next) {
 
-    if (req.path == '/accounts/login' || req.path === '/register' || req.path === '/accounts/refreshToken') { 
+    if (req.path == '/accounts/login' || req.path === '/register' ) { 
       console.log('Skipping authentication for login and registration routes');
         return next();  // Skip authentication for login and registration routes
       }  

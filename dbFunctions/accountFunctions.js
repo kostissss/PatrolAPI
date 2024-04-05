@@ -113,6 +113,7 @@ async function loginAccount(accountData) {
       throw new Error(error);
     }
     const authToken =  jwtUtils.generateAuthToken(account.id);
+    
     const refreshToken = await authTokenFunctions.createRefreshToken(account.id);
     return { account, authToken,refreshToken };
     
