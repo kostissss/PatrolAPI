@@ -45,6 +45,7 @@ async function findRefreshToken(token){
     try {
       
         const refreshToken = await db.authToken.findOne({ where: { token: token } });
+        console.log('Refresh token found:', refreshToken);
         if (!refreshToken) {
           throw new Error('Token not found');
         }

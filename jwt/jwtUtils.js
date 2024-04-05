@@ -3,7 +3,7 @@ const  JWT_SECRET  = process.env.SECRET || "6b51d431df5d7f141cbececcf79edf3dd861
 
 function generateAuthToken(accountId) {
     try {
-        const token = jwt.sign({ accountId}, JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ accountId}, JWT_SECRET, { expiresIn: '15m' });
         return token;
       } catch (error) {
         throw new Error(error);
