@@ -1,4 +1,5 @@
 
+const { findRefreshToken } = require('../dbFunctions/authTokenFunctions');
 const { verifyAuthToken } = require('../jwt/jwtUtils');
 function authMiddleware(req, res, next) {
 
@@ -22,10 +23,22 @@ function authMiddleware(req, res, next) {
     const decoded = verifyAuthToken(token); 
     console.log('Decoded:', decoded);
     req.user = decoded; 
-    next(); 
+    console.log('Cookies:', req.cookies);
+    const refreshToken = req.cookies['Refresh-Token'];
+    if (!refreshToken) {
+      console.error('Refresh token missing');
+      return res.status(401).json({ message: 'Refresh token missing' });
+    }
+    if (findRefreshToken(refreshToken)) {
+      next(); 
+    }
+    else {
+      console.error('Refresh token not Found');
+      return res.status(401).json({ message: 'Refresh token notFound' });
+    }
   } catch (error) {
     console.error('Error verifying token:', error);
-    return res.status(403).json({ message: error });
+    return res.status(401).json({ message: error });
   }
 }
 

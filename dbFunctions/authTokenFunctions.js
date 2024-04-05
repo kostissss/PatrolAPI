@@ -26,7 +26,7 @@ async function verifyExpiration(refreshToken){
         if (refreshToken.expiryDate < new Date().getTime()) {
             throw new Error('Token expired');
           }
-          await deleteRefreshToken(refreshToken);
+          
           return refreshToken;
     } catch (error) {
         throw new Error(error);
