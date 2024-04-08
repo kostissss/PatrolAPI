@@ -17,8 +17,8 @@ router.get('/refreshToken', async (req, res) => {
     const updatedToken = await authTokenFunctions.refreshToken(refreshToken);
     const authToken = jwtUtils.generateAuthToken(updatedToken.userId);
     res.cookie('Refresh-Token', updatedToken.token, {
-      httpOnly: false,
-      secure: false,
+      httpOnly: false,//true in production
+      secure: false, // true in production
       path: '/'  // Set the path to root
       ,expires: new Date(updatedToken.expiryDate)
       
@@ -67,9 +67,9 @@ router.get('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
   try {
-    const updatedAccount = await dbFunctions.updateAccount(req.params.id, req.body);
+    const account = await dbFunctions.updateAccount(req.params.id, req.body);
 
-    res.status(200).json(updatedAccount);
+    res.status(200).json({account});
   } catch (error) {
       console.error('Error updating account:', error);
       res.status(500).send('Error updating account');
