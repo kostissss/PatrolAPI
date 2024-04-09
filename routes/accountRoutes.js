@@ -28,8 +28,8 @@ router.get('/refreshToken', async (req, res) => {
     
     res.status(200).json({  authToken,updatedToken });
   } catch (error) {
-      console.error('Error deleting refresh token:', error);
-      res.status(500).send('Error deleting refresh token');
+      console.error('Refresh token error:', error);
+      res.status(401).send('Refresh token error');
   }
 });
 
