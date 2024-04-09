@@ -22,6 +22,7 @@ app.use(cookieParser());
 
 app.use(authMiddleware);
 
+
 app.get('/', (req, res) => {
     res.send('Hello World');
     }
@@ -40,3 +41,4 @@ app.listen(PORT, () => {
 
 );
 });
+module.exports = app;
