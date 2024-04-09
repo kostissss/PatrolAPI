@@ -109,34 +109,48 @@ describe("Accounts",  function () {
         
 
 
-  });
+      });
 
-  it("Returns 400  in case of same username", async function () {
-    const accountData = {
-        name: 'TEST',
-        email: "1232222@gmail.com",
-        password: 'Kosti$1',
-        uname: uuidv4(),
-        subscriptionFrequency: 'M',
-        plan: 'PROFESSIONAL',
-        timeZone: 'EST',
-        selectedOption: 'GOLD',
-        demoSelected: false,
-        expirationDate: '2024-04-09T11:26:22.921Z',
-        language: '',
-        role: 'admin'
-    };
-    const createRequest = await chai.request(app).post('/accounts/').send(accountData).set('Authorization', `Bearer ${authToken}`).set('Cookie', `Refresh-Token=${refreshToken}`);
-   // console.log('createRequest:', createRequest.body);
-   
-    expect(createRequest.status).equal(400);
-    expect (createRequest.text).equal('Email already exists');
-    
+      it("Returns 400  in case of same username", async function () {
+        const accountData = {
+            name: 'TEST',
+            email: "1232222@gmail.com",
+            password: 'Kosti$1',
+            uname: uuidv4(),
+            subscriptionFrequency: 'M',
+            plan: 'PROFESSIONAL',
+            timeZone: 'EST',
+            selectedOption: 'GOLD',
+            demoSelected: false,
+            expirationDate: '2024-04-09T11:26:22.921Z',
+            language: '',
+            role: 'admin'
+        };
+        const createRequest = await chai.request(app).post('/accounts/').send(accountData).set('Authorization', `Bearer ${authToken}`).set('Cookie', `Refresh-Token=${refreshToken}`);
+      // console.log('createRequest:', createRequest.body);
+      
+        expect(createRequest.status).equal(400);
+        expect (createRequest.text).equal('Email already exists');
+        
 
 
-});
+      });
 
     });
+    describe("DELETE /logout", function () {
+
+        it("Logs out successfully", async function () {
+            const logoutRequest = await chai.request(app)
+              .delete('/accounts/logout').set('Authorization', `Bearer ${authToken}`).set('Cookie', `Refresh-Token=${loginRequest.body.refreshToken.token}`);
+        
+            expect(logoutRequest.status).equal(200);
+           
+          });
+
+        
+
+    });
+
 });
 
   
