@@ -137,7 +137,30 @@ describe("Accounts",  function () {
       });
 
     });
-    describe("DELETE /logout", function () {
+    
+
+    describe("PUT /:id", function () {
+
+        it("Updates account successfully", async function () {
+            const accountData = {
+                uname: 'KL'
+              } ;
+            const updateRequest = await chai.request(app).put(`/accounts/${loginRequest.body.account.id}`).send(accountData).set('Authorization', `Bearer ${authToken}`).set('Cookie', `Refresh-Token=${refreshToken}`);
+
+            expect(updateRequest.status).equal(200);
+            
+            expect(updateRequest.body.account.uname).equal('KL');
+          }
+        );
+        afterEach(async function () {
+          const accountData = {
+            uname: 'K'
+          } ;
+          const updateRequest = await chai.request(app).put(`/accounts/${loginRequest.body.account.id}`).send(accountData).set('Authorization', `Bearer ${authToken}`).set('Cookie', `Refresh-Token=${refreshToken}`);
+          });
+
+      });
+      describe("DELETE /logout", function () {
 
         it("Logs out successfully", async function () {
             const logoutRequest = await chai.request(app)
@@ -150,6 +173,11 @@ describe("Accounts",  function () {
         
 
     });
+
+
+      
+      
+
 
 });
 
