@@ -3,7 +3,9 @@ const app = express();
 const PORT = 3000;
 const accountRoutes = require('./routes/accountRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
+const guardRoutes = require('./routes/guardRoutes');
 const authMiddleware = require('./middleware/authMiddleware');
+
 const cors = require('cors'); // Import the CORS library
 const cookieParser = require("cookie-parser");
 app.use(express.json());
@@ -31,6 +33,7 @@ app.get('/', (req, res) => {
 
 app.use('/accounts', accountRoutes);
 app.use('/notifications', notificationRoutes);
+app.use('/guards', guardRoutes);
 
 
 db.sequelize.sync({/* alter: true*/  } ).then(() => {
