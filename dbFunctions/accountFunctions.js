@@ -17,6 +17,30 @@ async function getAccountById(id) {
   }
 }
 
+
+async function getAccountsByField(field, value) {
+
+  try {
+
+    const accounts = await db.Account.findAll({
+
+      where: { [field]: value },
+
+      attributes: { exclude: ['password'] }
+
+    });
+
+    return accounts;
+
+  } catch (error) {
+
+    throw new Error(error);
+
+  }
+
+}
+
+
 async function getAllAccounts() {
   try {
     const accounts = await db.Account.findAll({
@@ -131,6 +155,7 @@ module.exports = {
   deleteAccount,
   loginAccount,
   findAccountByEmail,
-  findAccountByUsername
+  findAccountByUsername,
+  getAccountsByField
 
 };
