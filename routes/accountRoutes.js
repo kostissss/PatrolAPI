@@ -101,6 +101,7 @@ router.post('/', async (req, res) => {
 
 
 
+
 router.post('/login', async (req, res) => {
   try {
     // const userNameExists = await dbFunctions.findAccountByUsername(req.body);
@@ -146,6 +147,29 @@ router.delete('/:id', async (req, res) => {
       res.status(500).send('Error deleting account');
   }
 });
+
+router.post('/:filter', async (req, res) => {
+
+  try {
+
+    const account = await dbFunctions.getAccountsByField(req.params.filter,req.body.value);
+
+    res.status(200).json(account);
+
+  } catch (error) {
+
+      console.error('Error getting account:', error);
+
+      res.status(500).send('Error getting account');
+
+  }
+
+}); 
+
+
+
+
+
 
 
 
