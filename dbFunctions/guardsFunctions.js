@@ -50,6 +50,23 @@ async function getAllGuards() {
     throw new Error(error);
   }
 }
+async function updateMultipleGuards(guardsData) {
+  try {
+    const guards = await db.Guard.findAll({
+      where: { GuardId: guardsData.map(guard => guard.GuardId) }
+    });
+    if (!guards) {
+      throw new Error(error);
+    }
+    guardsData.forEach(async (guardData) => {
+      const guard = guards.find(guard => guard.GuardId === guardData.GuardId);
+      await guard.update(guardData);
+    });
+    return guards;
+  } catch (error) {
+    throw new Error(error);
+  }
+}
 
 async function createGuard(guardData) {
   try {
@@ -102,6 +119,7 @@ module.exports = {
   getAllGuards,
   createGuard,
   updateGuard,
+  updateMultipleGuards,
  
   deleteGuard,
   getGuardsByField
