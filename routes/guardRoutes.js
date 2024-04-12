@@ -7,7 +7,23 @@ const dbFunctions = require('../dbFunctions/guardsFunctions');
 // Define user routes
 
 
+router.put('/updateMultipleGuards', async (req, res) => {
 
+  try {
+
+    const guards = await dbFunctions.updateMultipleGuards(req.body);
+
+    res.status(200).json(guards);
+
+  } catch (error) {
+      
+        console.error('Error updating guards:', error);
+  
+        res.status(500).send(error);
+  
+    }
+
+});
 
 router.get('/:id', async (req, res) => {
   try {
@@ -33,6 +49,8 @@ router.get('/', async (req, res) => {
       res.status(500).send('Error getting guards');
   }
 });
+
+
 
 
 
