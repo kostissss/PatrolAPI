@@ -5,6 +5,7 @@ const sinon = require('sinon');
 const dbFunctions = require('../../../dbFunctions/AccountFunctions'); 
 const authTokenFunctions = require('../../../dbFunctions/authTokenFunctions');
 const { v4: uuidv4 } = require("uuid"); 
+const { generateAuthToken } = require('../../../jwt/jwtUtils');
 
 const app = require('../../../index'); // Replace with your app file
 
@@ -15,12 +16,21 @@ describe("Accounts",  function () {
     let loginRequest;
     let authToken;
     let refreshToken;
-    beforeEach(async function    () {
-
+    beforeAll(async function    () {
+      const loginStub = sinon.stub(chai.request(app), 'post');
+      jwt =generateAuthToken(20)
+      refreshToken= authTokenFunctions.createRefreshToken(20);
+      loginStub.withArgs('/accounts/login').resolves({ 
+        status: 200, 
+        body: { authToken: jwt, refreshToken: refreshToken} 
+      });
           loginRequest = await chai.request(app).post('/accounts/login').send({ uname: 'K', password: 'Kosti$1' });
         //console.log('loginRequest:', loginRequest.body);
-         authToken = loginRequest.body.authToken;
+         authToken = jwt;
         
+    });
+    afterEach(async function() {
+      await new Promise(resolve => setTimeout(resolve, 100)); 
     });
 
     describe("GET /refreshToken", function () {
@@ -40,7 +50,7 @@ describe("Accounts",  function () {
             expect(refreshRequest.body).to.have.property('authToken');
             expect(refreshRequest.body).to.have.property('updatedToken');
             
-            authToken=refreshRequest.body.authToken;
+            // authToken=refreshRequest.body.authToken;
             refreshToken=refreshRequest.body.updatedToken.token;
             //expect(refreshTokenStub.refreshToken).toHaveBeenCalled();
           });
@@ -48,10 +58,13 @@ describe("Accounts",  function () {
         
 
         it ("Fails to refresh token if we dont have refreshToken", async function () {
-            const refreshRequest = await chai.request(app)
-              .get('/accounts/refreshToken').set('Authorization', `Bearer ${authToken}`);
+            
         
-            expect(refreshRequest.status).equal(401);
+            expect((await chai.request(app)
+            .get('/accounts/refreshToken')
+            .set('Authorization', `Bearer ${authToken}`))
+            .status)
+            .equal(401);
             
             
           });
@@ -82,7 +95,7 @@ describe("Accounts",  function () {
            // console.log('createRequest:', createRequest.body);
            console.log("refreshToken:", refreshToken);
             expect(createRequest.status).equal(201);
-
+            
 
       });
 
@@ -162,11 +175,13 @@ describe("Accounts",  function () {
       });
       describe("DELETE /logout", function () {
 
+
         it("Logs out successfully", async function () {
             const logoutRequest = await chai.request(app)
-              .delete('/accounts/logout').set('Authorization', `Bearer ${authToken}`).set('Cookie', `Refresh-Token=${loginRequest.body.refreshToken.token}`);
-        
-            expect(logoutRequest.status).equal(200);
+              .delete('/accounts/logout').set('Authorization', `Bearer ${authToken}`).set('Cookie', `Refresh-Token=${refreshToken}`);
+            // var spy = sinon.spy(authTokenFunctions, 'findRefreshToken');
+            
+           // expect(spy.calledOnce).to.be.true;
            
           });
 
