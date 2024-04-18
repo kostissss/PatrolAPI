@@ -2,7 +2,7 @@
 const chai = require('chai'); 
 const chaiHttp = require('chai-http');
 const sinon = require('sinon'); 
-const dbFunctions = require('../../../dbFunctions/AccountFunctions'); 
+
 const authTokenFunctions = require('../../../dbFunctions/authTokenFunctions');
 const { v4: uuidv4 } = require("uuid"); 
 const { generateAuthToken } = require('../../../jwt/jwtUtils');
@@ -16,21 +16,25 @@ describe("Accounts",  function () {
     let loginRequest;
     let authToken;
     let refreshToken;
+    let refreshRequest
     beforeAll(async function    () {
-      const loginStub = sinon.stub(chai.request(app), 'post');
-      jwt =generateAuthToken(20)
-      refreshToken= authTokenFunctions.createRefreshToken(20);
-      loginStub.withArgs('/accounts/login').resolves({ 
-        status: 200, 
-        body: { authToken: jwt, refreshToken: refreshToken} 
-      });
+      // const loginStub = sinon.stub(chai.request(app), 'post');
+      // jwt =generateAuthToken(20)
+      // refreshToken= await authTokenFunctions.createRefreshToken(20);
+      // loginStub.withArgs('/accounts/login').resolves({ 
+      //   status: 200, 
+      //   body: { authToken: jwt, refreshToken: refreshToken} 
+      // });
           loginRequest = await chai.request(app).post('/accounts/login').send({ uname: 'K', password: 'Kosti$1' });
         //console.log('loginRequest:', loginRequest.body);
-         authToken = jwt;
+         authToken = await loginRequest.body.authToken;
+         refreshToken = await loginRequest.body.refreshToken.token;
+        
         
     });
     afterEach(async function() {
       await new Promise(resolve => setTimeout(resolve, 100)); 
+      console.log(refreshToken);
     });
 
     describe("GET /refreshToken", function () {
@@ -43,15 +47,16 @@ describe("Accounts",  function () {
         it("Refreshes token successfully", async function () {
             
         
-            const refreshRequest = await chai.request(app)
-              .get('/accounts/refreshToken').set('Authorization', `Bearer ${authToken}`).set('Cookie', `Refresh-Token=${loginRequest.body.refreshToken.token}`);
+             refreshRequest = await chai.request(app)
+              .get('/accounts/refreshToken').set('Authorization', `Bearer ${authToken}`).set('Cookie', `Refresh-Token=${refreshToken}`);
         
             expect(refreshRequest.status).equal(200);
             expect(refreshRequest.body).to.have.property('authToken');
             expect(refreshRequest.body).to.have.property('updatedToken');
             
             // authToken=refreshRequest.body.authToken;
-            refreshToken=refreshRequest.body.updatedToken.token;
+            refreshToken= await refreshRequest.body.updatedToken.token;
+            
             //expect(refreshTokenStub.refreshToken).toHaveBeenCalled();
           });
 

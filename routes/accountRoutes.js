@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const authTokenFunctions = require('../dbFunctions/authTokenFunctions');
-const dbFunctions = require('../dbFunctions/AccountFunctions');
+const dbFunctions = require('../dbFunctions/accountFunctions.js');
 const jwtUtils =require( '../jwt/jwtUtils');
 
 
@@ -152,8 +152,8 @@ router.post('/:filter', async (req, res) => {
 
   try {
 
-    const account = await dbFunctions.getAccountsByField(req.params.filter,req.body.value);
-
+    const account = await dbFunctions.getAccountsByField(req.params.filter,req.body.value,req.body.limit,req.body.offset);
+    console.log('account:', account);
     res.status(200).json(account);
 
   } catch (error) {

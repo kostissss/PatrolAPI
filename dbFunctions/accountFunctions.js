@@ -18,26 +18,18 @@ async function getAccountById(id) {
 }
 
 
-async function getAccountsByField(field, value) {
-
+async function getAccountsByField(field, value, limit, offset) {
   try {
-
     const accounts = await db.Account.findAll({
-
       where: { [field]: value },
-
-      attributes: { exclude: ['password'] }
-
+      attributes: { exclude: ['password'] },
+      limit: limit,
+      offset: offset
     });
-
     return accounts;
-
   } catch (error) {
-
     throw new Error(error);
-
   }
-
 }
 
 
