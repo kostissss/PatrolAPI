@@ -18,10 +18,15 @@ async function getAccountById(id) {
 }
 
 
-async function getAccountsByField(field, value, limit, offset) {
+async function getAccountsByField(field, value, limit, offset, order) {
   try {
+
+    let orderArray = order.split(' ');
+   
+
     const accounts = await db.Account.findAll({
       where: { [field]: value },
+      order: [orderArray] ,
       attributes: { exclude: ['password'] },
       limit: limit,
       offset: offset
