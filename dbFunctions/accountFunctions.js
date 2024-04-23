@@ -1,6 +1,7 @@
 const db = require('../models');
 const authTokenFunctions = require('../dbFunctions/authTokenFunctions');
 const bcrypt = require('bcryptjs');
+const Sequelize = require('sequelize');
 
 const jwtUtils =require( '../jwt/jwtUtils');
 
@@ -18,21 +19,23 @@ async function getAccountById(id) {
 }
 
 
-async function getAccountsByField(field, value, limit, offset, order) {
+async function getAccountsByField(field, value, limit, offset, order,searchFields,searchKey) {
   try {
 
     let orderArray = order.split(' ');
-   
+    
 
     const accounts = await db.Account.findAll({
-      where: { [field]: value },
+      where: { [field]: value,
+        [Sequelize.Op.or]: searchFields.map(field => ({ [field]: { [Sequelize.Op.like]: `%${searchKey}%` } })) },
       order: [orderArray] ,
       attributes: { exclude: ['password'] },
       limit: limit,
       offset: offset
     });
 
-    const count=await db.Account.count({ where: { role: value }});
+    const count=await db.Account.count({ where: { [field]: value,
+        [Sequelize.Op.or]: searchFields.map(field => ({ [field]: { [Sequelize.Op.like]: `%${searchKey}%` } })) }});
     return {accounts,count};
   } catch (error) {
     throw new Error(error);
