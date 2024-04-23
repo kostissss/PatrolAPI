@@ -16,6 +16,7 @@ router.get('/refreshToken', async (req, res) => {
     console.log('refreshToken:', refreshToken);
     const updatedToken = await authTokenFunctions.refreshToken(refreshToken);
     const authToken = jwtUtils.generateAuthToken(updatedToken.userId);
+    const account = await dbFunctions.getAccountById(updatedToken.userId);
     res.cookie('Refresh-Token', updatedToken.token, {
       httpOnly: false,//true in production
       secure: false, // true in production
@@ -26,7 +27,7 @@ router.get('/refreshToken', async (req, res) => {
 
 
     
-    res.status(200).json({  authToken,updatedToken });
+    res.status(200).json({  authToken,updatedToken,account });
   } catch (error) {
       console.error('Refresh token error:', error);
       res.status(401).send('Refresh token error');
