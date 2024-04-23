@@ -153,9 +153,9 @@ router.post('/:filter', async (req, res) => {
 
   try {
 
-    const account = await dbFunctions.getAccountsByField(req.params.filter,req.body.value,req.body.limit,req.body.offset);
-    console.log('account:', account);
-    res.status(200).json(account);
+    const {accounts,count} = await dbFunctions.getAccountsByField(req.params.filter,req.body.value,req.body.limit,req.body.offset);
+    console.log('account:', accounts, 'count:', count);
+    res.status(200).json({rows: accounts ,count:count});
 
   } catch (error) {
 

@@ -26,7 +26,9 @@ async function getAccountsByField(field, value, limit, offset) {
       limit: limit,
       offset: offset
     });
-    return accounts;
+
+    const count=await db.Account.count({ where: { role: value }});
+    return {accounts,count};
   } catch (error) {
     throw new Error(error);
   }
