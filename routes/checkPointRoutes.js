@@ -80,6 +80,16 @@ router.delete('/:id', async (req, res) => {
     }
 });
 
+router.post('/bulkCreateCheckPoints', async (req, res) => {
+    try {
+        const newCheckPoints = await dbFunctions.bulkCreateCheckPoints(req.body);
+        res.status(201).json(newCheckPoints);
+    } catch (error) {
+        console.error('Error creating checkPoints:', error);
+        res.status(500).send('Error creating checkPoints');
+    }
+});
+
 router.post('/:filter', async (req, res) => {
 
     try {

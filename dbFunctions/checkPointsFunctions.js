@@ -109,6 +109,15 @@ async function getCheckPointsByField(field, value) {
     }
   }
 
+  async function bulkCreateCheckPoints(checkPointsData) {
+    try {
+      const newCheckPoints = await db.checkPoint.bulkCreate(checkPointsData);
+      return newCheckPoints;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
 module.exports = {
   getAllCheckPoints,
   getCheckPointById,
@@ -116,5 +125,6 @@ module.exports = {
   updateCheckPoint,
   deleteCheckPoint,
   getCheckPointsByField,
-    updateMultipleCheckPoints
+    updateMultipleCheckPoints,
+    bulkCreateCheckPoints
 };
