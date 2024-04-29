@@ -1,7 +1,7 @@
 -- --------------------------------------------------------
 -- Διακομιστής:                  127.0.0.1
--- Έκδοση διακομιστή:            10.4.32-MariaDB - mariadb.org binary distribution
--- Λειτ. σύστημα διακομιστή:     Win64
+-- Έκδοση διακομιστή:            10.4.32-MariaDB-1:10.4.32+maria~ubu2004 - mariadb.org binary distribution
+-- Λειτ. σύστημα διακομιστή:     debian-linux-gnu
 -- HeidiSQL Έκδοση:              12.6.0.6765
 -- --------------------------------------------------------
 
@@ -16,7 +16,7 @@
 
 
 -- Dumping database structure for database_development
-CREATE DATABASE IF NOT EXISTS `database_development` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
+CREATE DATABASE IF NOT EXISTS `database_development` /*!40100 DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci */;
 USE `database_development`;
 
 -- Dumping structure for πίνακας database_development.Accounts
@@ -36,9 +36,9 @@ CREATE TABLE IF NOT EXISTS `Accounts` (
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=209 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=211 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping data for table database_development.Accounts: ~22 rows (approximately)
+-- Dumping data for table database_development.Accounts: ~6 rows (approximately)
 INSERT INTO `Accounts` (`id`, `name`, `uname`, `email`, `password`, `timeZone`, `subscriptionFrequency`, `expirationDate`, `plan`, `selectedOption`, `role`, `language`, `createdAt`, `updatedAt`) VALUES
 	(1, '123', '123123', '123@gmail.com', '$2a$10$DRXTlHPcTDt/CnWsAOvEoewbhtXYFWOqSWefN9rZrXtDV61mgGW.i', 'CST', 'M', '2024-04-20 07:42:38', 'PROFESSIONAL', 'PRO', '', '', '2024-03-21 08:42:39', '2024-04-01 08:58:14'),
 	(3, 'revel', 'Kosti$1', '201dsf@gmail.com', '$2a$10$8Jha5I0ALIWzHaDoMNDVc.WjR70Xpuvz.Uou2qTT.yudVsv5DcJzq', 'EST', 'M', '2024-04-20 11:47:56', 'PROFESSIONAL', 'PRO', '', '', '2024-03-21 12:50:32', '2024-03-21 12:50:32'),
@@ -58,10 +58,12 @@ INSERT INTO `Accounts` (`id`, `name`, `uname`, `email`, `password`, `timeZone`, 
 	(17, '123213312321312', 'KKKK', '132312312321312312231@gmail.com', '$2a$10$wSelSRzScYuD/wX34Gi.Guh8oMELNmy05oPZDUkOT0UU2E75IL2y6', 'EST', 'A', '2024-05-01 08:35:43', 'STARTER', 'BASE', 'admin', '', '2024-04-01 08:35:49', '2024-04-01 08:35:49'),
 	(18, '12312', '12312', '1ddsd23@gmail.com', '$2a$10$fo1oH7KmaST7nYKdPhMa5.4g4aOEwgEdDFs3JKimxGYEoW6qVNLtm', 'EST', 'M', '2024-05-01 08:41:54', 'PROFESSIONAL', 'PRO', 'admin', '', '2024-04-01 08:41:58', '2024-04-01 08:41:58'),
 	(19, '12312312', 'dsadsad', '123333333@ggmail.com', '$2a$10$y5dgIIGsXi5khMFSUh..FOVD.i/y2veDXeclKLe06Ws8MDUuBAjju', 'EST', 'A', '2024-05-01 08:43:44', 'STARTER', 'GOLD', 'admin', '', '2024-04-01 08:43:48', '2024-04-01 08:43:48'),
-	(20, '312321', 'P', '1232222@gmail.com', '$2a$10$48aBpGYPz2LSHuY.rqYXE.Cf3lmfgof/31nxw2Z1N/wOi380m7g.u', 'PST', '', '2024-04-01 08:59:00', '', '', 'partner', '', '2024-04-01 08:59:26', '2024-04-16 12:19:55'),
+	(20, '312321', 'z', '1232222@gmail.com', '$2a$10$48aBpGYPz2LSHuY.rqYXE.Cf3lmfgof/31nxw2Z1N/wOi380m7g.u', 'PST', '', '2024-04-01 08:59:00', '', '', 'partner', '', '2024-04-01 08:59:26', '2024-04-23 07:04:22'),
 	(164, 'MYppppartner', 'erttttt', 'mo6565ck@gmail.com', '$2a$10$dZOHmiuqnI/ACBp5.d00MOpFI3iCiovanCIafD2ZXVWD1nnngFBjS', 'PST', '', '2024-04-16 07:33:09', '', '', 'partner', '', '2024-04-16 07:33:43', '2024-04-16 07:33:43'),
 	(165, 'uddddddd', 'keepo', 'uddddddd@gmail.com', '$2a$10$0wMAFHVSn6qVx8ka0/6DVug/Tb.iuFmOqtCiPetNHWBHZemr6QkxW', 'CST', 'M', '2024-05-16 07:50:36', 'PREMIUM', 'PRO', 'admin', '', '2024-04-16 07:50:48', '2024-04-16 07:50:48'),
-	(167, 'TEST', 'K', '18c770d5-70e3-412c-b7a8-f4fdd3d5fcd1', '$2a$10$AwuTGvl6PU11EjX4yitb9O4w3bLBuTXpoyiWuFosjEyayPLRm0HY6', 'EST', 'M', '2024-04-09 11:26:22', 'PROFESSIONAL', 'GOLD', 'admin', '', '2024-04-16 08:09:11', '2024-04-17 12:32:55');
+	(167, 'TEST', 'KK', '18c770d5-70e3-412c-b7a8-f4fdd3d5fcd1', '$2a$10$AwuTGvl6PU11EjX4yitb9O4w3bLBuTXpoyiWuFosjEyayPLRm0HY6', 'EST', 'M', '2024-04-09 11:26:22', 'PROFESSIONAL', 'GOLD', 'admin', '', '2024-04-16 08:09:11', '2024-04-24 09:38:49'),
+	(209, 'BASILIS', 'billll', 'bill@gmail.com', '$2a$10$QgTW8pXCvcgoyd2agfTkn.EUY8fusR61/aU6xCDnj5Ld5eSIcyAfa', 'CST', 'A', '2024-05-23 13:10:21', 'PREMIUM', 'PRO', 'admin', '', '2024-04-23 13:10:26', '2024-04-23 13:10:26'),
+	(210, 'LAST', 'arnitol', 'latest@gmail.com', '$2a$10$fup68NlNXjS8CRWY.i0.o.6ZmIJm7IRXGVw2bcjC35GpoNgzGM6G2', 'PST', 'M', '2024-05-26 13:13:49', 'STARTER', 'BASE', 'admin', '', '2024-04-26 13:13:53', '2024-04-26 13:13:53');
 
 -- Dumping structure for πίνακας database_development.authTokens
 CREATE TABLE IF NOT EXISTS `authTokens` (
@@ -76,9 +78,9 @@ CREATE TABLE IF NOT EXISTS `authTokens` (
   CONSTRAINT `authTokens_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `Accounts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `authTokens_ibfk_2` FOREIGN KEY (`userId`) REFERENCES `Accounts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `authTokens_ibfk_3` FOREIGN KEY (`userId`) REFERENCES `Accounts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=955 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1003 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping data for table database_development.authTokens: ~315 rows (approximately)
+-- Dumping data for table database_development.authTokens: ~329 rows (approximately)
 INSERT INTO `authTokens` (`sessionId`, `userId`, `token`, `expiryDate`, `createdAt`, `updatedAt`) VALUES
 	(1, 1, '2b77cb5e-d338-4720-94e7-807adbde8e73', '2024-04-21 08:10:47', '2024-03-22 09:10:47', '2024-03-22 09:10:47'),
 	(2, 1, '3306babd-042d-4f62-a8c2-2793a305ea02', '2024-04-21 08:17:24', '2024-03-22 09:17:24', '2024-03-22 09:17:24'),
@@ -220,7 +222,6 @@ INSERT INTO `authTokens` (`sessionId`, `userId`, `token`, `expiryDate`, `created
 	(667, 20, '64ef849e-e2b1-4773-8b85-5102ad128b24', '2024-04-18 10:44:11', '2024-04-11 10:44:11', '2024-04-11 10:44:11'),
 	(668, 20, '35d61193-e59d-4ef4-8567-c862ef7f1efe', '2024-04-18 12:40:05', '2024-04-11 12:40:05', '2024-04-11 12:40:05'),
 	(669, 20, '6274455b-3472-4b3f-b37e-e8e8976af52f', '2024-04-19 09:57:22', '2024-04-12 09:45:42', '2024-04-12 09:57:22'),
-	(670, 20, 'fdd77fc7-530c-42d6-8d2c-568639e60ca8', '2024-04-25 08:51:59', '2024-04-12 10:24:26', '2024-04-18 08:51:59'),
 	(671, 20, '4020ddba-a084-424d-afd6-fa88ff821e43', '2024-04-23 07:25:14', '2024-04-12 11:56:16', '2024-04-16 07:25:14'),
 	(672, 20, '0f07ec1e-2732-47e1-9633-5723671f310b', '2024-04-19 12:57:50', '2024-04-12 12:57:50', '2024-04-12 12:57:50'),
 	(673, 20, '05a46dc9-8b95-477d-a476-0da48666a246', '2024-04-19 13:03:27', '2024-04-12 13:03:27', '2024-04-12 13:03:27'),
@@ -394,7 +395,68 @@ INSERT INTO `authTokens` (`sessionId`, `userId`, `token`, `expiryDate`, `created
 	(925, 167, '21597197-d13a-44a8-842e-0205f65f8db5', '2024-04-23 13:28:39', '2024-04-16 13:18:52', '2024-04-16 13:28:39'),
 	(942, 167, '15bf0890-2d89-4645-a170-a68f60ef45ca', '2024-04-24 08:10:22', '2024-04-17 07:52:46', '2024-04-17 08:10:22'),
 	(944, 167, '9261ebae-d3cb-422e-8135-f4492cd17e72', '2024-04-24 08:29:40', '2024-04-17 08:29:40', '2024-04-17 08:29:40'),
-	(947, 167, '9585488d-5b66-4b96-826e-70bf8b91439b', '2024-04-25 13:12:07', '2024-04-17 08:47:23', '2024-04-18 13:12:07');
+	(947, 167, '9585488d-5b66-4b96-826e-70bf8b91439b', '2024-04-25 13:12:07', '2024-04-17 08:47:23', '2024-04-18 13:12:07'),
+	(955, 20, 'b37b6103-37bf-4ac3-9120-f3f554d8a67b', '2024-04-26 09:46:28', '2024-04-19 09:46:28', '2024-04-19 09:46:28'),
+	(956, 167, '45960957-ab9a-42bb-8b13-4cf61ca54033', '2024-04-26 12:38:29', '2024-04-19 10:00:53', '2024-04-19 12:38:29'),
+	(961, 167, '5c57e11a-8a40-4523-9255-f2d630fa8561', '2024-05-02 09:25:22', '2024-04-22 10:45:44', '2024-04-25 09:25:22'),
+	(964, 167, '2b50635e-a53d-4a44-bb4c-78d579499c41', '2024-04-29 12:24:56', '2024-04-22 12:24:56', '2024-04-22 12:24:56'),
+	(965, 167, 'dc954786-a31e-425a-a968-9dae1dce93db', '2024-04-29 12:26:49', '2024-04-22 12:26:49', '2024-04-22 12:26:49'),
+	(966, 167, 'e4f14d7c-e983-4916-a62c-90dd37c11f81', '2024-04-29 12:28:24', '2024-04-22 12:27:48', '2024-04-22 12:28:24'),
+	(968, 167, 'f70be69a-c0e1-4121-b7be-37a31f47c5ba', '2024-04-29 12:53:02', '2024-04-22 12:52:38', '2024-04-22 12:53:02'),
+	(971, 167, '37f07f30-1883-4337-912d-a03543383d2d', '2024-04-29 12:59:38', '2024-04-22 12:59:06', '2024-04-22 12:59:38'),
+	(983, 20, 'e02f02bd-31b6-478b-b92f-194b2fff6c80', '2024-04-29 13:49:03', '2024-04-22 13:45:53', '2024-04-22 13:49:03'),
+	(988, 20, '326d56a1-854d-40b8-8e17-34e319d991da', '2024-04-30 09:33:24', '2024-04-23 08:34:07', '2024-04-23 09:33:24'),
+	(996, 20, '83beeed3-e975-40cd-8105-69a09c9a0e02', '2024-05-01 13:21:40', '2024-04-24 09:46:53', '2024-04-24 13:21:40'),
+	(998, 167, 'ff94a973-8760-4a00-898f-fa81a23dd04f', '2024-05-02 08:07:12', '2024-04-25 08:07:12', '2024-04-25 08:07:12'),
+	(1000, 167, 'c4498742-6ce3-4c5e-81aa-8c4783ddbcaa', '2024-05-02 12:08:19', '2024-04-25 09:25:36', '2024-04-25 12:08:19'),
+	(1001, 167, '45afb98e-a911-495a-91f6-8f34611c892a', '2024-05-03 13:16:13', '2024-04-26 12:42:58', '2024-04-26 13:16:13'),
+	(1002, 167, '280868f3-f190-45db-853a-d285096301f6', '2024-05-06 10:13:27', '2024-04-29 10:13:25', '2024-04-29 10:13:28');
+
+-- Dumping structure for πίνακας database_development.checkPoints
+CREATE TABLE IF NOT EXISTS `checkPoints` (
+  `checkPointId` int(11) NOT NULL AUTO_INCREMENT,
+  `checkPointCode` varchar(255) NOT NULL,
+  `clientSiteCode` varchar(255) NOT NULL,
+  `checkPoint` varchar(255) NOT NULL,
+  `isLocked` tinyint(1) NOT NULL,
+  `isDeleted` tinyint(1) DEFAULT NULL,
+  `deletedDate` datetime DEFAULT NULL,
+  `userId` int(11) NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL,
+  PRIMARY KEY (`checkPointId`),
+  KEY `userId` (`userId`),
+  CONSTRAINT `checkPoints_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `Accounts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `checkPoints_ibfk_2` FOREIGN KEY (`userId`) REFERENCES `Accounts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `checkPoints_ibfk_3` FOREIGN KEY (`userId`) REFERENCES `Accounts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `checkPoints_ibfk_4` FOREIGN KEY (`userId`) REFERENCES `Accounts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Dumping data for table database_development.checkPoints: ~0 rows (approximately)
+INSERT INTO `checkPoints` (`checkPointId`, `checkPointCode`, `clientSiteCode`, `checkPoint`, `isLocked`, `isDeleted`, `deletedDate`, `userId`, `createdAt`, `updatedAt`) VALUES
+	(1, 'CP002', 'XYZ-987', 'Security Zone', 1, 1, '2024-04-26 10:40:05', 9, '2024-04-25 09:06:52', '2024-04-26 10:40:09'),
+	(2, 'CP001', 'XYZ-9827', 'Security Zone', 0, 1, '2024-04-26 08:21:56', 9, '2024-04-25 09:46:35', '2024-04-26 08:22:01'),
+	(3, 'CP0301', 'XYZ-9827', 'Security Zone', 1, 1, '2024-04-26 08:21:37', 9, '2024-04-25 09:46:43', '2024-04-26 08:22:01'),
+	(4, 'CP0302', 'XYZ-9827', 'Security Zone', 0, 0, NULL, 9, '2024-04-25 09:46:45', '2024-04-25 13:41:15'),
+	(5, 'CP0304', 'XYZ-9827', 'Security Zone', 0, 1, '2024-04-25 13:41:08', 9, '2024-04-25 09:46:48', '2024-04-25 13:41:15'),
+	(6, 'CP0304', 'XYZ-9827', 'Security Zone', 1, 1, '2024-04-25 12:48:10', 10, '2024-04-25 09:46:52', '2024-04-25 12:48:11'),
+	(7, 'CP6', '6', '', 0, 1, '2024-04-26 11:06:04', 167, '2024-04-26 11:03:29', '2024-04-26 11:06:05'),
+	(8, 'CP7', '7', '', 0, 0, NULL, 167, '2024-04-26 11:03:29', '2024-04-26 11:03:29'),
+	(15, 'CP6', '6', '', 0, 0, NULL, 167, '2024-04-26 11:07:26', '2024-04-26 11:07:26'),
+	(16, 'CP7', '7', '', 0, 0, NULL, 167, '2024-04-26 11:07:26', '2024-04-26 11:07:26'),
+	(17, 'CP6', '6', '', 0, 0, NULL, 167, '2024-04-26 11:13:12', '2024-04-26 11:13:12'),
+	(18, 'CP6', '6', '', 0, 0, NULL, 167, '2024-04-26 11:13:58', '2024-04-26 11:13:58'),
+	(19, 'CP7', '7', '', 0, 0, NULL, 167, '2024-04-26 11:14:34', '2024-04-26 11:14:34'),
+	(20, 'CP8', '8', '', 0, 0, NULL, 167, '2024-04-26 11:15:05', '2024-04-26 11:15:05'),
+	(21, 'CP6', '6', '', 0, 0, NULL, 167, '2024-04-26 11:16:11', '2024-04-26 11:16:11'),
+	(22, 'CP6', '6', '', 0, 0, NULL, 167, '2024-04-26 11:17:32', '2024-04-26 11:17:32'),
+	(23, 'CP6', '6', '', 0, 0, NULL, 9, '2024-04-26 11:18:08', '2024-04-26 11:18:08'),
+	(24, 'CP7', '7', '', 0, 0, NULL, 9, '2024-04-26 12:09:11', '2024-04-26 12:09:11'),
+	(25, 'CP8', '8', '', 0, 0, NULL, 9, '2024-04-26 12:09:11', '2024-04-26 12:09:11'),
+	(26, 'CP2', '2', '', 0, 0, NULL, 10, '2024-04-26 12:11:08', '2024-04-26 12:11:08'),
+	(27, 'CP3', '3', '', 0, 0, NULL, 10, '2024-04-26 12:11:08', '2024-04-26 12:11:08'),
+	(28, 'CP9', '9', '', 0, 0, NULL, 9, '2024-04-26 12:16:07', '2024-04-26 12:16:07'),
+	(29, 'CP11', '11', '', 0, 0, NULL, 167, '2024-04-26 12:18:02', '2024-04-26 12:18:02');
 
 -- Dumping structure for πίνακας database_development.Guards
 CREATE TABLE IF NOT EXISTS `Guards` (
@@ -419,15 +481,15 @@ CREATE TABLE IF NOT EXISTS `Guards` (
   CONSTRAINT `Guards_ibfk_3` FOREIGN KEY (`userId`) REFERENCES `Accounts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping data for table database_development.Guards: ~9 rows (approximately)
+-- Dumping data for table database_development.Guards: ~0 rows (approximately)
 INSERT INTO `Guards` (`GuardId`, `name`, `arcGuardId`, `pin`, `isQrPatrol`, `isPTT`, `lastLatitude`, `lastLongitude`, `lastAccuracy`, `lastContact`, `language`, `userId`, `createdAt`, `updatedAt`) VALUES
 	(1, 'John Doe', 123, 456, 0, 1, 40.7128, -74.006, 10.5, '1999-12-31 22:00:00', 'English', 1, '2024-04-11 09:29:23', '2024-04-11 09:29:23'),
-	(2, 'John Dose', 125, 456, 1, 0, 40.7128, -74.006, 10.5, '1999-12-31 22:00:00', 'English', 9, '2024-04-11 09:29:50', '2024-04-17 06:30:43'),
-	(3, 'John Doste', 125, 456, 1, 1, 40.7128, -74.006, 10.5, '1999-12-31 22:00:00', 'English', 9, '2024-04-11 10:45:21', '2024-04-16 06:49:02'),
-	(4, 'John Doddsste', 125, 456, 1, 1, 40.7128, -74.006, 10.5, '1999-12-31 22:00:00', 'English', 9, '2024-04-11 10:45:24', '2024-04-16 06:49:02'),
-	(5, 'John Dodddsdssste', 125, 456, 1, 1, 40.7128, -74.006, 10.5, '1999-12-31 22:00:00', 'English', 9, '2024-04-11 10:45:26', '2024-04-16 06:49:02'),
-	(6, 'John Ddsose', 125, 456, 1, 1, 40.7128, -74.006, 10.5, '1999-12-31 22:00:00', 'English', 10, '2024-04-11 12:42:00', '2024-04-12 09:57:38'),
-	(7, 'John Ddsoxsxsse', 125, 456, 0, 1, 40.7128, -74.006, 10.5, '1999-12-31 22:00:00', 'English', 10, '2024-04-11 12:42:04', '2024-04-11 12:42:04'),
+	(2, 'John Dose', 125, 456, 0, 1, 40.7128, -74.006, 10.5, '1999-12-31 22:00:00', 'English', 9, '2024-04-11 09:29:50', '2024-04-25 12:50:56'),
+	(3, 'John Doste', 125, 456, 0, 0, 40.7128, -74.006, 10.5, '1999-12-31 22:00:00', 'English', 9, '2024-04-11 10:45:21', '2024-04-25 12:50:59'),
+	(4, 'John Doddsste', 125, 456, 0, 0, 40.7128, -74.006, 10.5, '1999-12-31 22:00:00', 'English', 9, '2024-04-11 10:45:24', '2024-04-25 12:50:59'),
+	(5, 'John Dodddsdssste', 125, 456, 0, 0, 40.7128, -74.006, 10.5, '1999-12-31 22:00:00', 'English', 9, '2024-04-11 10:45:26', '2024-04-25 12:50:59'),
+	(6, 'John Ddsose', 125, 456, 1, 0, 40.7128, -74.006, 10.5, '1999-12-31 22:00:00', 'English', 10, '2024-04-11 12:42:00', '2024-04-24 11:24:12'),
+	(7, 'John Ddsoxsxsse', 125, 456, 0, 0, 40.7128, -74.006, 10.5, '1999-12-31 22:00:00', 'English', 10, '2024-04-11 12:42:04', '2024-04-24 11:24:12'),
 	(8, 'zohn Ddsoxsxsse', 125, 456, 0, 1, 40.7128, -74.006, 10.5, '1999-12-31 22:00:00', 'English', 10, '2024-04-11 12:42:08', '2024-04-11 12:42:08'),
 	(9, 'zxzohn Ddsoxsxsse', 125, 456, 0, 1, 40.7128, -74.006, 10.5, '1999-12-31 22:00:00', 'English', 12, '2024-04-11 12:42:14', '2024-04-11 12:42:14');
 
@@ -446,7 +508,7 @@ CREATE TABLE IF NOT EXISTS `Notifications` (
   CONSTRAINT `Notifications_ibfk_3` FOREIGN KEY (`userId`) REFERENCES `Accounts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping data for table database_development.Notifications: ~1 rows (approximately)
+-- Dumping data for table database_development.Notifications: ~0 rows (approximately)
 INSERT INTO `Notifications` (`id`, `userId`, `NotificationTitle`, `NotificationMessage`, `createdAt`, `updatedAt`) VALUES
 	(1, 1, 'dsdddsadsads', '13421321321312312', '2024-03-21 08:44:20', '2024-03-21 08:44:20');
 

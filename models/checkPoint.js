@@ -23,7 +23,7 @@ module.exports = function(sequelize, DataTypes) {
             }
             
         },
-        ckeckPoint: {
+        checkPoint: {
             type: DataTypes.STRING,
             allowNull: false,
             
